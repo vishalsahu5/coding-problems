@@ -1,3 +1,4 @@
+// Inefficient solution. Will update later using rabin karp.
 class Solution {
     public int repeatedStringMatch(String A, String B) {
         int x = 1;
