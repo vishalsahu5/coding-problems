@@ -1,42 +1,51 @@
 class Solution {
-    
-    private int dfs(int i, int j, boolean[][] visited, int[][] matrix, int[][] output) {
-        if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length)
-            return 10001;
-        if (matrix[i][j] == 0) {
-            return 0;
+
+    class Pair {
+        public int first;
+        public int second;
+
+        public Pair(int i, int j) {
+            first = i;
+            second = j;
         }
-        if (output[i][j] != -1) {
-            return output[i][j];
-        }
-        
-        visited[i][j] = true;
-        int top=10001,bottom=10001,left=10001,right=10001;
-        if (i > 0 && !visited[i-1][j])
-            top = 1 + dfs(i-1, j, visited, matrix, output);
-        if (i < matrix.length - 1 && !visited[i+1][j])
-            bottom = 1 + dfs(i+1, j, visited, matrix, output);
-        if (j > 0 && !visited[i][j-1])
-            left = 1 + dfs(i, j-1, visited, matrix, output);
-        if (j < matrix[0].length-1 && !visited[i][j+1])
-            right = 1 + dfs(i, j+1, visited, matrix, output);
-        
-        visited[i][j]=false;
-        return Math.min(top, Math.min(bottom, Math.min(left,right)));
+
     }
-    
+
     public int[][] updateMatrix(int[][] matrix) {
-        
+
         int[][] output = new int[matrix.length][matrix[0].length];
-        for (int i=0; i<output.length; i++) {
-            for (int j=0; j<output[0].length; j++) {
-                output[i][j] = -1;
+        Queue<Pair> q = new LinkedList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+
+                if (matrix[i][j] != 0)
+                    output[i][j] = Integer.MAX_VALUE;
+                else {
+                    // output[i][j] = 0;
+                    q.add(new Pair(i, j));
+                }
             }
         }
-        boolean[][] visited = new boolean[matrix.length][matrix[0].length];
-        for (int i=0; i<matrix.length; i++) {
-            for (int j=0; j<matrix[0].length; j++) {
-                output[i][j] = dfs(i, j, visited, matrix, output);
+
+        // start bfs
+        while (q.size() != 0) {
+            Pair p = q.remove();
+            if (p.first > 0 && output[p.first - 1][p.second] > output[p.first][p.second] + 1) {
+                q.add(new Pair(p.first - 1, p.second));
+                output[p.first - 1][p.second] = output[p.first][p.second] + 1;
+            }
+            if (p.first < matrix.length - 1 && output[p.first + 1][p.second] > output[p.first][p.second] + 1) {
+                q.add(new Pair(p.first + 1, p.second));
+                output[p.first + 1][p.second] = output[p.first][p.second] + 1;
+            }
+
+            if (p.second > 0 && output[p.first][p.second - 1] > output[p.first][p.second] + 1) {
+                q.add(new Pair(p.first, p.second - 1));
+                output[p.first][p.second - 1] = output[p.first][p.second] + 1;
+            }
+            if (p.second < matrix[0].length - 1 && output[p.first][p.second + 1] > output[p.first][p.second] + 1) {
+                q.add(new Pair(p.first, p.second + 1));
+                output[p.first][p.second + 1] = output[p.first][p.second] + 1;
             }
         }
         return output;
