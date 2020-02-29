@@ -1,16 +1,19 @@
-import java.util.StringTokenizer;
-
 class Solution {
-    public int lengthOfLastWord(String str) {
-      if (str.length() == 0) {
+  public int lengthOfLastWord(String str) {
+    if (str.length() == 0) {
         return 0;
-      }
-
-      StringTokenizer words = new StringTokenizer(str, " ");
-      String word = "";
-      while (words.hasMoreTokens()) {
-        word = words.nextToken();
-      }
-      return word.length();
     }
+    
+    int start = 0;
+    int end = str.length()-1;
+    
+    while (end >= 0 && end >= start && str.charAt(end) == ' ') {
+        end--;
+    }
+    start = end;
+    while (start >= 0 && str.charAt(start) != ' ') {
+        start--;
+    }
+    return end - start;
+}
 }
