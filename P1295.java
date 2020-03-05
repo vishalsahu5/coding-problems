@@ -1,15 +1,11 @@
 class Solution {
-    public int findNumbers(int[] nums) {
-        int result = 0;
-        for (int i=0; i<nums.length; i++) {
-            int count = 0;
-            int num = nums[i];
-            while (num > 0) {
-                num = num/10;
-                count++;
-            }
-            if (count % 2 == 0) result++;
-        }
-        return result;
-    }
+  public int findNumbers(int[] nums) {
+      int count = 0;
+      for(int i = 0; i < nums.length; i++){   
+          if((nums[i] > 9 && nums[i] < 100) || (nums[i] > 999 && nums[i] < 10000)){
+              count++;
+          }
+      }
+      return count;
+  }
 }
