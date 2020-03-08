@@ -1,48 +1,24 @@
 class Solution {
-    private class Pair{
-        public Integer first;
-        public Integer second;
-        public Pair(int i, int j) {
-            first = i;
-            second = j;
-        }
-        
-        public String toString() {
-            return "[ "+first.toString()+" , "+second.toString()+" ]";
-        }
-    }
     
-    public int minSetSize(int[] arr) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>(new Comparator<Pair>() {
-            @Override
-            public int compare(Pair o1, Pair o2) {
-                if (o2.second > o1.second) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
-        Arrays.sort(arr);
-        int count = 1;
-        int i=1;
-        do {
-            if (arr[i] != arr[i-1]) {
-                pq.add(new Pair(arr[i-1], count));
-                count = 1;
-            } else {
-                count++;
-            }
-            i++;
-        } while (i < arr.length);
-        if (count > 1)
-            pq.add(new Pair(arr[i-1], count));
-        int sum = 0;
-        int result = 0;
-        while (pq.size() > 0 && sum < arr.length/2) {
-            sum += pq.poll().second;
-            result++;
-        }
-        return result;
-    }
+  public int minSetSize(int[] arr) {
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+      Arrays.sort(arr);
+      int count = 1, prev = arr[0];
+      for (int i=1; i < arr.length; i++) {
+          if (arr[i] != prev) {
+              pq.add(count);
+              count = 1;
+              prev = arr[i];
+          } else {
+              count++;
+          }
+      }
+      if (count > 1) pq.add(count);
+      int sum = 0, result = 0;
+      while (pq.size() > 0 && sum < arr.length/2) {
+          sum += pq.poll();
+          result++;
+      }
+      return result;
+  }
 }
