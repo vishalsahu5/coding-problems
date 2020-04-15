@@ -21,5 +21,3 @@ class Solution {
     return result;
   }
 }
-// 1 2 3 4
-// 1 1 8 6
