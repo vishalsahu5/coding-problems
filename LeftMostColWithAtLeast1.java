@@ -6,8 +6,6 @@
 
 class Solution {
   public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
-    // return 0;
-    int[] dims = binaryMatrix.dimensions();
     List<Integer> dims = binaryMatrix.dimensions();
     int m = dims.get(0), n = dims.get(1);
     int minCol = n;
